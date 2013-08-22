@@ -9,8 +9,6 @@ class Contact
     Database.add_contact([@first_name,@last_name,@email,@note])
   end
 
-
-
   def first_name
     @first_name
   end

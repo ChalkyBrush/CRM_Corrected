@@ -51,6 +51,20 @@ class CRM
   		contact = Contact.new(first_name, last_name, email, note)
 	end
 
+	def modify_existing_contact
+		puts "\e[H\e[2J"
+		puts Database.contacts
+		puts "\nContacts are listed above. Select another option\n\n"
+	end
+
+	def delete_contact
+		puts "\e[H\e[2J"
+		puts "Delete contact with which ID?:"
+  		delete_id = gets.chomp
+  		Database.delete_contact(delete_id)
+
+	end
+
 	def display_contacts
 		puts "\e[H\e[2J"
 		puts Database.contacts
