@@ -4,6 +4,8 @@ class CRM
 	def initialize(name)
 		@name = name
 		@exit = false
+		@database = Database.new
+		puts "\e[H\e[2J"
 		puts "\nWelcome to #{@name}.\n\n"
  	end
 
@@ -36,7 +38,8 @@ class CRM
 	end
 
 	def add_new_contact
-		#puts "Adding contact with ID #{database.id}"
+		puts "\e[H\e[2J"
+		puts "Adding contact with ID #{Database.id}"
   		print "Enter First Name: "
   		first_name = gets.chomp.downcase.capitalize
   		print "Enter Last Name: "
@@ -49,7 +52,9 @@ class CRM
 	end
 
 	def display_contacts
-		#p database.contacts
+		puts "\e[H\e[2J"
+		puts Database.contacts
+		puts "\nContacts are listed above. Select another option\n\n"
 	end
 
 	def exit_program

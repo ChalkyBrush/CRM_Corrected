@@ -5,7 +5,7 @@ class Contact
     @first_name = first_name
     @last_name = last_name
     @email = email
-    @note = note
+    @note = "Note: " + note
     Database.add_contact([@first_name,@last_name,@email,@note])
   end
 
@@ -29,4 +29,3 @@ class Contact
 end
 
 
-database = Database.new
