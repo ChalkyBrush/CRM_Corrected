@@ -146,6 +146,28 @@ class CRM
 		puts "Note: " + a.note
 	end
 
+	def display_an_attribute
+		puts "\e[H\e[2J"
+		print "Which attribute should be listed for each contact?"
+		puts "\nSelect Option: \n[1]ID\n[2]First Name\n[3]Last Name\n[4]E-mail\n[5]Notes\n"
+		attribute_id = gets.chomp.to_i
+		puts "\n"
+		Database.contacts.each { |a|
+		if attribute_id == 1
+			puts a.id
+		elsif attribute_id == 2
+			puts a.first_name
+		elsif attribute_id == 3
+			puts a.last_name
+		elsif attribute_id == 4
+			puts a.email
+		elsif attribute_id == 5
+			puts a.note
+		end
+		}
+		puts "\nSelected attributes are listed above. Select another option\n\n"
+	end
+
 	def exit_program
 		@exit = true
 	end
