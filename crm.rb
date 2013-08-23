@@ -8,6 +8,10 @@ class CRM
 		puts "\e[H\e[2J"
 		puts "\nWelcome to #{@name}.\n\n"
  	end
+	
+	def is_a_number?(s)
+  		s.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true 
+	end
 
 	def main_menu
 		while @exit == false
@@ -57,24 +61,50 @@ class CRM
 	def modify_existing_contact
 		puts "\e[H\e[2J"
 		puts "Modify contact with which ID?:"
-		modify_id = gets.chomp
-		puts Database.modify_contact(modify_id)
-		puts "\nContacts are listed above. Select another option\n\n"
+		inputmatch = false
+		idint = false
+		modify_id = gets.chomp.to_i
+		Database.contacts.each {|a|
+  		if a.id == modify_id.to_i
+  			inputmatch = true
+  			display_individual_contact(a)
+  			puts "\nIs going to be modified. Confirm? (Y/N)"
+  			user_input = gets.chomp.upcase
+  			if user_input == "Y"
+  						while idint==false
+  							print "Enter new ID: "
+  							input_id = gets.chomp
+  							if is_a_number?(input_id) == true
+  							idint=true
+  							else
+  							print "\nInput is not a number. Please enter a numeric ID\n"
+  							end
+  						end
+  						print "Enter First Name: "
+  						first_name = gets.chomp.downcase.capitalize
+  						print "Enter Last Name: "
+  						last_name = gets.chomp.downcase.capitalize
+  						print "Enter Email Address: "
+  						email = gets.chomp
+  						print "Enter a Note: "
+  						note = gets.chomp
+  				contact = Contact.new(first_name, last_name, email, note)
+  				Database.modify_contact(contact,input_id.to_i)
+  				Database.contacts.delete(a)
+  				puts "\e[H\e[2J"
+  				puts "Contact modified. Select another option\n\n"
+  			else 
+  				puts "\e[H\e[2J"
+  				puts "Contact was not modifed. Select another option\n\n" 
+  			end
+  		end
+  		}
+  		if inputmatch == false
+  			puts "\e[H\e[2J"
+  			puts "\nNo contact found with ID: #{modify_id}. Select another option\n\n"
+  		end
 	end
 
-	def modify_contact2
-		puts "\e[H\e[2J"
-		puts "Modifying contact with ID #{Database.id}"
-  		print "Enter First Name: "
-  		first_name = gets.chomp.downcase.capitalize
-  		print "Enter Last Name: "
-  		last_name = gets.chomp.downcase.capitalize
-  		print "Enter Email Address: "
-  		email = gets.chomp
-  		print "Enter a Note: "
-  		note = gets.chomp
-
-	end
 
 	def delete_contact
 		puts "\e[H\e[2J"
@@ -84,7 +114,8 @@ class CRM
   		Database.contacts.each {|a|
   		if a.id == delete_id.to_i
   			inputmatch = true
-  			puts "Is going to be removed permanently. Confirm? (Y/N)"
+  			display_individual_contact(a)
+  			puts "\nIs going to be removed permanently. Confirm? (Y/N)"
   			user_input = gets.chomp.upcase
   			if user_input == "Y"
   				Database.contacts.delete(a)
@@ -103,16 +134,16 @@ class CRM
 	def display_contacts
 		puts "\e[H\e[2J"
 		Database.contacts.each {|a|
-		puts "ID: " + a.id.to_s
+		display_individual_contact(a)
+		}
+		puts "\nContacts are listed above. Select another option\n\n"
+	end
+
+	def display_individual_contact(a)
+		puts "\nID: " + a.id.to_s
 		puts "Name: " + a.first_name + " " + a.last_name
 		puts "E-mail: " + a.email
 		puts "Note: " + a.note
-		puts "\n"
-		}
-		puts "Contacts are listed above. Select another option\n\n"
-	end
-
-	def display_contact_to_modify
 	end
 
 	def exit_program
