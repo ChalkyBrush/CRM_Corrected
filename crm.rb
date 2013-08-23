@@ -79,22 +79,46 @@ class CRM
 	def delete_contact
 		puts "\e[H\e[2J"
 		puts "Delete contact with which ID?:"
+		inputmatch = false
   		delete_id = gets.chomp
-  		Database.delete_contact(delete_id)
+  		Database.contacts.each {|a|
+  		if a.id == delete_id.to_i
+  			inputmatch = true
+  			puts "Is going to be removed permanently. Confirm? (Y/N)"
+  			user_input = gets.chomp.upcase
+  			if user_input == "Y"
+  				Database.contacts.delete(a)
+  				puts "Contact deleted. Select another option\n\n"
+  			else puts "Contact was not deleted. Select another option\n\n" 
+  			end
+  		end
+  		}
+
+  		if inputmatch == false
+  			puts "\nNo contact found with ID: #{delete_id}. Select another option\n\n"
+  		end
 
 	end
 
 	def display_contacts
 		puts "\e[H\e[2J"
 		Database.contacts.each {|a|
-		puts a.first_name
+		puts "ID: " + a.id.to_s
+		puts "Name: " + a.first_name + " " + a.last_name
+		puts "E-mail: " + a.email
+		puts "Note: " + a.note
+		puts "\n"
 		}
-		puts "\nContacts are listed above. Select another option\n\n"
+		puts "Contacts are listed above. Select another option\n\n"
+	end
+
+	def display_contact_to_modify
 	end
 
 	def exit_program
 		@exit = true
 	end
+
 end
 
 crm = CRM.new("Ryan's CRM")
