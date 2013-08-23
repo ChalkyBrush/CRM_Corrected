@@ -1,29 +1,16 @@
 require ("./database")
 
 class Contact
+  
+attr_accessor :first_name, :last_name, :email, :note, :id
+
   def initialize(first_name, last_name, email, note)
     @first_name = first_name
     @last_name = last_name
     @email = email
-    @note = "Note: " + note
-    Database.add_contact([@first_name,@last_name,@email,@note])
+    @note = note
   end
 
-  def first_name
-    @first_name
-  end
-
-  def last_name
-    @last_name
-  end
-
-  def email
-    @email
-  end
-
-  def note
-    @note
-  end
 end
 
 

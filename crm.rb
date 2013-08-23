@@ -49,12 +49,31 @@ class CRM
   		print "Enter a Note: "
   		note = gets.chomp
   		contact = Contact.new(first_name, last_name, email, note)
+  		Database.add_contact(contact)
+  		puts "\e[H\e[2J"
+  		puts "\nContact added successfully. Select another option: \n\n"
 	end
 
 	def modify_existing_contact
 		puts "\e[H\e[2J"
-		puts Database.contacts
+		puts "Modify contact with which ID?:"
+		modify_id = gets.chomp
+		puts Database.modify_contact(modify_id)
 		puts "\nContacts are listed above. Select another option\n\n"
+	end
+
+	def modify_contact2
+		puts "\e[H\e[2J"
+		puts "Modifying contact with ID #{Database.id}"
+  		print "Enter First Name: "
+  		first_name = gets.chomp.downcase.capitalize
+  		print "Enter Last Name: "
+  		last_name = gets.chomp.downcase.capitalize
+  		print "Enter Email Address: "
+  		email = gets.chomp
+  		print "Enter a Note: "
+  		note = gets.chomp
+
 	end
 
 	def delete_contact
@@ -67,7 +86,9 @@ class CRM
 
 	def display_contacts
 		puts "\e[H\e[2J"
-		puts Database.contacts
+		Database.contacts.each {|a|
+		puts a.first_name
+		}
 		puts "\nContacts are listed above. Select another option\n\n"
 	end
 
